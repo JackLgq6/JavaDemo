@@ -14,7 +14,7 @@ public class SmallRat extends Rat {
 	}
 	
 	public void threeMonthLater(SmallRat smallMaleRat) {
-		Rat.afterThreeMonth(smallMaleRat);
+		//Rat.afterThreeMonth(smallMaleRat);
 	}
 
 	public int getAge() {

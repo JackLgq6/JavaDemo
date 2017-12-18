@@ -2,6 +2,7 @@ package com.eg.ccm.entity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * 第一批公老鼠因为是成年的，所以默认年龄3个月
@@ -17,6 +18,8 @@ public class Rat implements RatCommonFeature {
 	// 多少胎数
 	private int fetus = 2;
 	private static Map<Rat, Integer> map = new HashMap<Rat, Integer>();
+	private SmallRat maleSmallRat;
+	private SmallRat femaleSmallRat;
 
 	public Rat() {
 	}
@@ -46,13 +49,42 @@ public class Rat implements RatCommonFeature {
 	}*/
 
 	public void bear(Rat rat, int day, int fetus) {
+		maleSmallRat = new SmallRat();
+		maleSmallRat.setSex("male");
+		femaleSmallRat = new SmallRat();
+		femaleSmallRat.setSex("female");
 		if (rat.getSex().equals("female")) {
-			for (Integer i = 1, j = 5; i <= 11; i++, j++) {
-				for (int x = 0; x < j; x++) {
-					if (fetus = i)
+			//int taishu = fetus + 4;
+			if (fetus >= 1 && fetus <= 11) {
+				int maleCount = 0;
+				int femaleCount = 0;
+				Random r = new Random();
+				for (int x = 0; x < rat.getCount() * (fetus + 4); x++) {
+					int num = r.nextInt() + 1;
+					if (num % 2 == 0) {
+						maleSmallRat.setCount(++maleCount);
+					} else {
+						femaleSmallRat.setCount(++femaleCount);
+					}
+				}
+			}
+			if (fetus > 11 && fetus < 22) {
+				int maleCount = 0;
+				int femaleCount = 0;
+				Random r = new Random();
+				for (int x = 0; x < rat.getCount() * (26 - fetus); x++) {
+					int num = r.nextInt() + 1;
+					if (num % 2 == 0) {
+						maleSmallRat.setCount(++maleCount);
+					} else {
+						femaleSmallRat.setCount(++femaleCount);
+					}
 				}
 			}
 		}
+		System.out.println(maleSmallRat.getCount());
+		System.out.println(femaleSmallRat.getCount());
+		afterThreeMonth(maleSmallRat);
 	}
 	
 	public int getAge() {
@@ -94,6 +126,8 @@ public class Rat implements RatCommonFeature {
 		SmallRat smallRat = (SmallRat) rat;
 		if (smallRat != null) {
 			map.put(smallRat, smallRat.getCount());
+			System.out.println("----------------------");
+			System.out.println(smallRat.getCount());
 		}
 	}
 }

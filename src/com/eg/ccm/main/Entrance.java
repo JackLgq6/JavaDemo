@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 import java.util.UUID;
 
+import com.eg.ccm.entity.Rat;
 import com.eg.ccm.entity.SmallRat;
 
 /**
@@ -34,13 +35,17 @@ import com.eg.ccm.entity.SmallRat;
 public class Entrance {
 	
 	public static void main(String[] args) throws Exception {
-		FileOutputStream fos = new FileOutputStream("src/SmallMaleRat.properties");
+		/*FileOutputStream fos = new FileOutputStream("src/SmallMaleRat.properties");
 		Properties prop = new Properties();
 		for (Integer i = 1, j = 5; i <= 11; i++, j++) {
 			//prop.setProperty(i.toString(), value)
 			for (int x = 0; j < j; x++) {
 				
 			}
-		}
+		}*/
+		Rat rat = new Rat();
+		rat.setSex("female");
+		rat.setCount(100);
+		rat.bear(rat, 0, 11);
 	}
 }
