@@ -3,11 +3,15 @@ package com.eg.ccm.main;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Properties;
+import java.util.Random;
 import java.util.UUID;
 
 import com.eg.ccm.entity.Rat;
+import com.eg.ccm.entity.RatNest;
 import com.eg.ccm.entity.SmallRat;
+import com.eg.ccm.timer.TimeUtil;
 
 /**
  * 
@@ -43,9 +47,41 @@ public class Entrance {
 				
 			}
 		}*/
-		Rat rat = new Rat();
+		/*Rat rat = new Rat();
 		rat.setSex("female");
 		rat.setCount(100);
-		rat.bear(rat, 0, 11);
+		rat.bear(rat, 0, 11);*/
+		ArrayList<Rat> maleRatList = new ArrayList<>();
+		ArrayList<Rat> femaleRatList = new ArrayList<>();
+		ArrayList<SmallRat> smallMaleRatList = new ArrayList<>();
+		ArrayList<SmallRat> smalllFemaleRatList = new ArrayList<>();
+		
+		Rat maleRat = new Rat(1, 3, "male");
+		Rat femaleRat = new Rat(1, 3, "female");
+		femaleRat.setFetus(femaleRat, 2);
+		SmallRat maleSmallRat = new SmallRat();
+		maleSmallRat.setAge(1);
+		maleSmallRat.setSex("male");
+		SmallRat femaleSmallRat = new SmallRat();
+		femaleSmallRat.setAge(1);
+		femaleSmallRat.setSex("female");
+		Random r = new Random();
+		int maleSmallCount = 0;
+		int femaleSmallCount = 0;
+		for (int i = 0; i < 5; i++) {
+			int num = r.nextInt() + 1;
+			if (num % 2 == 0) {
+				maleSmallRat.setCount(++maleSmallCount);
+			} else {
+				femaleSmallRat.setCount(++femaleSmallCount);
+			}
+		}
+		maleRatList.add(maleRat);
+		femaleRatList.add(femaleRat);
+		smallMaleRatList.add(maleSmallRat);
+		smalllFemaleRatList.add(femaleSmallRat);
+		RatNest ratNest = new RatNest(10, maleRatList, femaleRatList, smallMaleRatList, smalllFemaleRatList);
+		TimeUtil.setDate(2017, 11, 11);
+		TimeUtil.startTime(ratNest);
 	}
 }

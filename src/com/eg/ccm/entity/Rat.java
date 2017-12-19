@@ -1,6 +1,9 @@
 package com.eg.ccm.entity;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -16,11 +19,11 @@ public class Rat implements RatCommonFeature {
 	private int count;
 	private String sex;
 	// 多少胎数
-	private int fetus = 2;
+	private int fetus;
 	private static Map<Rat, Integer> map = new HashMap<Rat, Integer>();
 	private SmallRat maleSmallRat;
 	private SmallRat femaleSmallRat;
-
+	
 	public Rat() {
 	}
 
@@ -48,18 +51,21 @@ public class Rat implements RatCommonFeature {
 		// 开始计算时间，2年3个月后老鼠死亡
 	}*/
 
-	public void bear(Rat rat, int day, int fetus) {
+	public void bear(RatNest ratNest, Rat femaleRat, int fetus) {
 		maleSmallRat = new SmallRat();
 		maleSmallRat.setSex("male");
+		maleSmallRat.setAge(0);
 		femaleSmallRat = new SmallRat();
+		femaleSmallRat.setFetus(femaleRat, 1);
 		femaleSmallRat.setSex("female");
-		if (rat.getSex().equals("female")) {
+		femaleSmallRat.setAge(0);
+		if (femaleRat.getSex().equals("female")) {
 			//int taishu = fetus + 4;
 			if (fetus >= 1 && fetus <= 11) {
 				int maleCount = 0;
 				int femaleCount = 0;
 				Random r = new Random();
-				for (int x = 0; x < rat.getCount() * (fetus + 4); x++) {
+				for (int x = 0; x < femaleRat.getCount() * (fetus + 4); x++) {
 					int num = r.nextInt() + 1;
 					if (num % 2 == 0) {
 						maleSmallRat.setCount(++maleCount);
@@ -72,7 +78,7 @@ public class Rat implements RatCommonFeature {
 				int maleCount = 0;
 				int femaleCount = 0;
 				Random r = new Random();
-				for (int x = 0; x < rat.getCount() * (26 - fetus); x++) {
+				for (int x = 0; x < femaleRat.getCount() * (26 - fetus); x++) {
 					int num = r.nextInt() + 1;
 					if (num % 2 == 0) {
 						maleSmallRat.setCount(++maleCount);
@@ -81,10 +87,14 @@ public class Rat implements RatCommonFeature {
 					}
 				}
 			}
+			List<SmallRat> smallMaleRatList = ratNest.getSmallMaleRatList();
+			List<SmallRat> smallFemaleRatList = ratNest.getSmallFemaleRatList();
+			smallMaleRatList.add(maleSmallRat);
+			smallFemaleRatList.add(femaleSmallRat);
 		}
 		System.out.println(maleSmallRat.getCount());
 		System.out.println(femaleSmallRat.getCount());
-		afterThreeMonth(maleSmallRat);
+		//afterThreeMonth(maleSmallRat);
 	}
 	
 	public int getAge() {
@@ -112,22 +122,55 @@ public class Rat implements RatCommonFeature {
 	}
 
 	@Override
-	public void dead(Rat rat) {
-		SmallRat smallRat = (SmallRat) rat;
-		if (smallRat != null) {
-			Integer smallRatCount = map.get(smallRat);
-			smallRatCount = 0;
-			smallRat = null;
+	public void dead(RatNest ratNest) {
+		List<Rat> femaleRatList = ratNest.getFemaleRatList();
+		List<Rat> maleRatList = ratNest.getMaleRatList();
+		List<SmallRat> smallMaleRatList = ratNest.getSmallMaleRatList();
+		List<SmallRat> smallFemaleRatList = ratNest.getSmallFemaleRatList();
+		for (SmallRat smallFemaleRat : smallFemaleRatList) {
+			if (smallFemaleRat.getAge() >= 23) {
+				smallFemaleRatList.remove(smallFemaleRat);
+			}
+		}
+		for (SmallRat smallMaleRat : smallMaleRatList) {
+			if (smallMaleRat.getAge() >= 23) {
+				smallFemaleRatList.remove(smallMaleRat);
+			}
+		}
+		for (Rat maleRat : maleRatList) {
+			if (maleRat.getAge() >= 23) {
+				smallFemaleRatList.remove(maleRat);
+			}
+		}
+		for (Rat femaleRat : femaleRatList) {
+			if (femaleRat.getAge() >= 23) {
+				smallFemaleRatList.remove(femaleRat);
+			}
 		}
 	}
 
 	@Override
-	public void afterThreeMonth(Rat rat) {
-		SmallRat smallRat = (SmallRat) rat;
-		if (smallRat != null) {
-			map.put(smallRat, smallRat.getCount());
+	public void afterThreeMonth(Rat rat, SmallRat smallRat) {
+		if (smallRat != null && rat != null) {
+			rat.setCount(rat.getCount() + smallRat.getCount());
+			map.put(rat, rat.getCount());
 			System.out.println("----------------------");
 			System.out.println(smallRat.getCount());
 		}
 	}
+
+	public int getFetus(Rat femaleRat) {
+		if ("female".equals(femaleRat.getSex())) {
+			return fetus;
+		}
+		return -1;
+	}
+
+	public void setFetus(Rat femaleRat, int fetus) {
+		if ("female".equals(femaleRat.getSex())) {
+			this.fetus = fetus;
+		}
+	}
+	
+	
 }

@@ -13,8 +13,11 @@ public class SmallRat extends Rat {
 		this.age = age;
 	}
 	
-	public void threeMonthLater(SmallRat smallMaleRat) {
+	public void threeMonthLater(Rat rat, SmallRat smallMaleRat) {
 		//Rat.afterThreeMonth(smallMaleRat);
+		if (rat.getSex().equals("female") && smallMaleRat.getSex().equals("female")) {
+			rat.afterThreeMonth(rat, smallMaleRat);
+		}
 	}
 
 	public int getAge() {
