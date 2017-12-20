@@ -21,8 +21,6 @@ public class Rat implements RatCommonFeature {
 	// 多少胎数
 	private int fetus;
 	private static Map<Rat, Integer> map = new HashMap<Rat, Integer>();
-	private SmallRat maleSmallRat;
-	private SmallRat femaleSmallRat;
 	
 	public Rat() {
 	}
@@ -52,10 +50,10 @@ public class Rat implements RatCommonFeature {
 	}*/
 
 	public void bear(RatNest ratNest, Rat femaleRat, int fetus) {
-		maleSmallRat = new SmallRat();
+		SmallRat maleSmallRat = new SmallRat();
 		maleSmallRat.setSex("male");
 		maleSmallRat.setAge(0);
-		femaleSmallRat = new SmallRat();
+		SmallRat femaleSmallRat = new SmallRat();
 		femaleSmallRat.setFetus(femaleRat, 1);
 		femaleSmallRat.setSex("female");
 		femaleSmallRat.setAge(0);
@@ -92,8 +90,8 @@ public class Rat implements RatCommonFeature {
 			smallMaleRatList.add(maleSmallRat);
 			smallFemaleRatList.add(femaleSmallRat);
 		}
-		System.out.println(maleSmallRat.getCount());
-		System.out.println(femaleSmallRat.getCount());
+		System.out.println("产小公老鼠数量：" + maleSmallRat.getCount());
+		System.out.println("产小母老鼠数量：" + femaleSmallRat.getCount());
 		//afterThreeMonth(maleSmallRat);
 	}
 	
@@ -125,26 +123,32 @@ public class Rat implements RatCommonFeature {
 	public void dead(RatNest ratNest) {
 		List<Rat> femaleRatList = ratNest.getFemaleRatList();
 		List<Rat> maleRatList = ratNest.getMaleRatList();
-		List<SmallRat> smallMaleRatList = ratNest.getSmallMaleRatList();
-		List<SmallRat> smallFemaleRatList = ratNest.getSmallFemaleRatList();
-		for (SmallRat smallFemaleRat : smallFemaleRatList) {
+		/*List<SmallRat> smallMaleRatList = ratNest.getSmallMaleRatList();
+		List<SmallRat> smallFemaleRatList = ratNest.getSmallFemaleRatList();*/
+		/*for (SmallRat smallFemaleRat : smallFemaleRatList) {
 			if (smallFemaleRat.getAge() >= 23) {
 				smallFemaleRatList.remove(smallFemaleRat);
+				System.out.println("-----------------------小母老鼠死亡");
 			}
 		}
 		for (SmallRat smallMaleRat : smallMaleRatList) {
 			if (smallMaleRat.getAge() >= 23) {
 				smallFemaleRatList.remove(smallMaleRat);
+				System.out.println("-----------------------小公老鼠死亡");
 			}
-		}
+		}*/
 		for (Rat maleRat : maleRatList) {
-			if (maleRat.getAge() >= 23) {
-				smallFemaleRatList.remove(maleRat);
+			if (maleRat.getAge() >= 30) {
+				maleRatList.remove(maleRat);
+				System.out.println("移除的公老鼠数量：" + maleRat.getCount());
+				maleRat = null;
 			}
 		}
 		for (Rat femaleRat : femaleRatList) {
-			if (femaleRat.getAge() >= 23) {
-				smallFemaleRatList.remove(femaleRat);
+			if (femaleRat.getAge() >= 30) {
+				femaleRatList.remove(femaleRat);
+				System.out.println("移除的母老鼠数量：" + femaleRat.getCount());
+				femaleRat = null;
 			}
 		}
 	}

@@ -1,7 +1,6 @@
 package com.eg.ccm.timer;
 
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.eg.ccm.entity.Rat;
@@ -50,14 +49,14 @@ public class TimeUtil {
 		System.out.println(year + "-" + month + "-" + day);*/
 		int days = 0;
 		int flag = 21;
-		int monthFlag = 27;
+		int monthFlag = 6;
 		int months = 0;
 		List<Rat> femaleRatList = ratNest.getFemaleRatList();
 		List<Rat> maleRatList = ratNest.getMaleRatList();
 		List<SmallRat> smallMaleRatList = ratNest.getSmallMaleRatList();
 		List<SmallRat> smallFemaleRatList = ratNest.getSmallFemaleRatList();
 		//tu.setDate(2017, 11, 11);
-		for (;;) {
+		for (int i = 0; i < 500; i++) {
 			//日期加1天
 			mCalendar.add(Calendar.DATE, 1);
 			days++;
@@ -68,42 +67,72 @@ public class TimeUtil {
 				int date = mCalendar.get(Calendar.DAY_OF_MONTH);
 				System.out.println(year + "-" + month + "-" + date);*/
 				for (Rat femaleRat : femaleRatList) {
-					femaleRat.bear(ratNest, femaleRat, femaleRat.getFetus(femaleRat));
+					int fetus = femaleRat.getFetus(femaleRat);
+					System.out.println("生育次数：" + femaleRatList.size());
+					femaleRat.bear(ratNest, femaleRat, fetus);
+					femaleRat.setFetus(femaleRat, ++fetus);
 				}
-				for (SmallRat smallFemaleRat : smallFemaleRatList) {
+				/*for (SmallRat smallFemaleRat : smallFemaleRatList) {
 					if (smallFemaleRat.getSex().equals("female") && smallFemaleRat.getAge() >= 3) {
 						smallFemaleRat.bear(ratNest, smallFemaleRat, smallFemaleRat.getFetus(smallFemaleRat));
 						int fetus = smallFemaleRat.getFetus(smallFemaleRat);
 						smallFemaleRat.setFetus(smallFemaleRat, ++fetus);
 					}
-				}
+				}*/
 			}
 			if (days >= 30 && days % 30 == 0) {
 				months++;
 				int smallFemaleRatCount = 0;
+				int smallMaleRatCount = 0;
+				int maleRatCount = 0;
+				int femaleRatCount = 0;
+				if (months >= 2) {
+					for (SmallRat smallFeSmallRat: smallFemaleRatList) {
+						if (smallFeSmallRat.getAge() >= 3 && smallFeSmallRat.getSex().equals("female")) {
+							femaleRatList.add(smallFeSmallRat);
+							smallFemaleRatList.remove(smallFeSmallRat);
+						}
+					}
+					for (SmallRat smallMaleRat : smallMaleRatList) {
+						if (smallMaleRat.getAge() >= 3 && smallMaleRat.getSex().equals("male")) {
+							maleRatList.add(smallMaleRat);
+							smallMaleRatList.remove(smallMaleRat);
+						}
+						//maleRatList.add(smallMaleRat);
+					}
+					//System.out.println("小老鼠成熟");
+				}
+				if (months >= 30) {
+					Rat rat = new Rat();
+					rat.dead(ratNest);
+				}
 				for (SmallRat smallFemaleRat : smallFemaleRatList) {
 					int age = smallFemaleRat.getAge();
-					smallFemaleRat.setAge(++age);
 					smallFemaleRatCount += smallFemaleRat.getCount();
+					smallFemaleRat.setAge(++age);
 				}
+				
 				for (SmallRat smallMaleRat : smallMaleRatList) {
 					int age = smallMaleRat.getAge();
+					smallMaleRatCount += smallMaleRat.getCount();
 					smallMaleRat.setAge(++age);
 				}
+				
 				for (Rat maleRat : maleRatList) {
 					int age = maleRat.getAge();
+					maleRatCount += maleRat.getCount();
 					maleRat.setAge(++age);
 				}
+				
 				for (Rat femaleRat : femaleRatList) {
 					int age = femaleRat.getAge();
+					femaleRatCount += femaleRat.getCount();
 					femaleRat.setAge(++age);
 				}
-				System.out.println("每个月成年母老鼠数量：" + );
+				System.out.println("每个月成年母老鼠数量：" + femaleRatCount + ", " + "每个月成年公老鼠数量：" + maleRatCount + ", "
+						+ "每个月小母老鼠数量：" + smallFemaleRatCount + ", " + "每个月小公老鼠数量" + smallMaleRatCount);
 			}
-			if (months >= 27 && months % monthFlag == 0) {
-				Rat rat = new Rat();
-				rat.dead(ratNest);
-			}
+			
 			if (isEnd()) {
 				break;
 			}
@@ -139,7 +168,7 @@ public class TimeUtil {
 		int year = mCalendar.get(Calendar.YEAR);
 		int month = mCalendar.get(Calendar.MONTH) + 1;
 		int date = mCalendar.get(Calendar.DAY_OF_MONTH);
-		if (year == 2030 && month == 12 && date == 31) {
+		if (year == 2020 && month == 12 && date == 31) {
 			return true;
 		}
 		return false;

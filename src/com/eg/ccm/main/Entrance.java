@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.eg.ccm.entity.Rat;
 import com.eg.ccm.entity.RatNest;
@@ -51,10 +52,10 @@ public class Entrance {
 		rat.setSex("female");
 		rat.setCount(100);
 		rat.bear(rat, 0, 11);*/
-		ArrayList<Rat> maleRatList = new ArrayList<>();
-		ArrayList<Rat> femaleRatList = new ArrayList<>();
-		ArrayList<SmallRat> smallMaleRatList = new ArrayList<>();
-		ArrayList<SmallRat> smalllFemaleRatList = new ArrayList<>();
+		CopyOnWriteArrayList<Rat> maleRatList = new CopyOnWriteArrayList<>();
+		CopyOnWriteArrayList<Rat> femaleRatList = new CopyOnWriteArrayList<>();
+		CopyOnWriteArrayList<SmallRat> smallMaleRatList = new CopyOnWriteArrayList<>();
+		CopyOnWriteArrayList<SmallRat> smalllFemaleRatList = new CopyOnWriteArrayList<>();
 		
 		Rat maleRat = new Rat(1, 3, "male");
 		Rat femaleRat = new Rat(1, 3, "female");
@@ -65,6 +66,7 @@ public class Entrance {
 		SmallRat femaleSmallRat = new SmallRat();
 		femaleSmallRat.setAge(1);
 		femaleSmallRat.setSex("female");
+		femaleSmallRat.setFetus(femaleSmallRat, 1);
 		Random r = new Random();
 		int maleSmallCount = 0;
 		int femaleSmallCount = 0;
@@ -76,6 +78,8 @@ public class Entrance {
 				femaleSmallRat.setCount(++femaleSmallCount);
 			}
 		}
+		System.out.println("初始成年母老鼠数量：" + femaleRat.getCount() + "," + "成年公老鼠数量：" + maleRat.getCount() + 
+				", 小母老鼠数量：" + femaleSmallRat.getCount() + "， 小公老鼠数量：" + maleSmallRat.getCount());
 		maleRatList.add(maleRat);
 		femaleRatList.add(femaleRat);
 		smallMaleRatList.add(maleSmallRat);
