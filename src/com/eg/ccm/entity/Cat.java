@@ -3,6 +3,8 @@ package com.eg.ccm.entity;
 import java.util.List;
 import java.util.Random;
 
+import sun.launcher.resources.launcher;
+
 /**
  * 3.4只猫中2母2公，猫都1岁了。 猫每8个月发情交尾，母猫怀孕2个月后生育，每次生育8只小猫。小猫15个月成年。
  * 4.猫每5天可以抓到1只老鼠。小猫10个月就可以抓老鼠了。10岁之后不再有抓老鼠的能力。 5.猫寿命为15年，然后自然死亡。
@@ -80,6 +82,113 @@ public class Cat {
 				int femaleCount = femaleRat.getCount();
 				femaleRat.setCount(--femaleCount);
 				break;
+			}
+		}
+	}
+	
+	//农夫最多养15只猫。多余的将送人，其中留下小猫不超过20%，成年公猫不超过20%。
+	public void giveToOthers(CatNest catNest) {
+		List<Cat> maleCatList = catNest.getMaleCatList();
+		List<Cat> femaleCatList = catNest.getFemaleCatList();
+		List<SmallCat> smallMaleCatList = catNest.getSmallMaleCatList();
+		List<SmallCat> smallFemaleCatList = catNest.getSmallFemaleCatList();
+		int maleCatCount = maleCatList.size();
+		int femaleCatCount = femaleCatList.size();
+		int smallMaleCatCount = smallMaleCatList.size();
+		int smallFemaleCatCount = smallFemaleCatList.size();
+		int totalCat = maleCatCount + femaleCatCount + smallMaleCatCount + smallFemaleCatCount;
+		int leaveCat = 15;
+		if (totalCat > leaveCat) {
+			if ((smallMaleCatCount + smallFemaleCatCount) > (leaveCat * 0.2)) {
+				int leaveSmallCatCount = (int)(leaveCat * 0.2);
+				int toBeLeaveCount = 0;
+				while (true) {
+					int sfCount = 0;
+					for (SmallCat smallFemaleCat : smallFemaleCatList) {
+						if (smallFemaleCatList.size() == 1) {
+							sfCount = smallFemaleCat.getCount();
+							if (sfCount < 3) {
+								break;
+							} else {
+								smallFemaleCat.setCount(2);
+								sfCount = 2;
+								break;
+							}
+						} else if (smallFemaleCatList.size() > 1) {
+							smallFemaleCatList.remove(smallFemaleCat);
+						}
+					}
+					for (SmallCat smallMaleCat : smallMaleCatList) {
+						if (smallMaleCatList.size() == 1) {
+							int smCount = smallMaleCat.getCount();
+							if (smCount < 3) {
+								if (smCount == 1 && sfCount == 1) {
+									break;
+								} else if (smCount == 1 && sfCount == 2) {
+									break;
+								} else if (smCount == 2 && sfCount == 1) {
+									break;
+								}
+								else {
+									smallMaleCat.setCount(1);
+									smCount = 1;
+									break;
+								}
+							} else {
+								switch (sfCount) {
+								case 1:
+									smallMaleCat.setCount(2);
+									break;
+								case 2:
+									smallMaleCat.setCount(1);
+									break;
+								default:
+									break;
+								}
+							}
+							toBeLeaveCount = smCount + sfCount;
+						} else if (smallMaleCatList.size() > 1) {
+							smallMaleCatList.remove(smallMaleCat);
+						}
+					}
+					if (toBeLeaveCount <= leaveSmallCatCount) {
+						break;
+					}
+				}
+			}
+			if (maleCatCount > (leaveCat * 0.2)) {
+				int toBeLeaveMaleCat = (int)(leaveCat * 0.2);
+				for (Cat maleCat : maleCatList) {
+					if (maleCatList.size() == 1) {
+						int mcCount = maleCat.getCount();
+						if (mcCount <= toBeLeaveMaleCat) {
+							break;
+						} else {
+							maleCat.setCount(toBeLeaveMaleCat);
+							break;
+						}
+					} else if (maleCatList.size() > 1) {
+						maleCatList.remove(maleCat);
+					}
+				}
+			}
+		}
+	}
+	
+	//猫寿命为15年，然后自然死亡。
+	public void dead(CatNest catNest) {
+		List<Cat> maleCatList = catNest.getMaleCatList();
+		List<Cat> femaleCatList = catNest.getFemaleCatList();
+		for (Cat femaleCat: femaleCatList) {
+			if (femaleCat.getAge() >= 15) {
+				femaleCatList.remove(femaleCat);
+				femaleCat = null;
+			}
+		}
+		for (Cat maleCat : maleCatList) {
+			if (maleCat.getAge() >= 15) {
+				maleCatList.remove(maleCat);
+				maleCat = null;
 			}
 		}
 	}
