@@ -172,6 +172,14 @@ public class Cat {
 			}
 			if (maleCatCount > (leaveCat * 0.2)) {
 				int toBeLeaveMaleCat = (int)(leaveCat * 0.2);
+				int max = 0;
+				Cat maxCountCat = maleCatList.get(0);
+				for (int i = 0; i < maleCatList.size(); i++) {
+					if (maleCatList.get(i).equals(maxCountCat)) {
+						maxCountCat = maleCatList.get(i);
+						max = i;
+					}
+				}
 				for (Cat maleCat : maleCatList) {
 					if (maleCatList.size() == 1) {
 						int mcCount = maleCat.getCount();
@@ -184,11 +192,16 @@ public class Cat {
 							break;
 						}
 					} else if (maleCatList.size() > 1) {
+						
 						maleCatList.remove(maleCat);
 					}
 				}
 			}
 		}
+	}
+	
+	public boolean equals(Cat cat) {
+		return this.count > cat.getCount();
 	}
 	
 	public static int totalMaleCatCount(CatNest catNest) {
