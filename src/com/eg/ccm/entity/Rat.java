@@ -90,8 +90,8 @@ public class Rat implements RatCommonFeature {
 			smallMaleRatList.add(maleSmallRat);
 			smallFemaleRatList.add(femaleSmallRat);
 		}
-		System.out.println("产小公老鼠数量：" + maleSmallRat.getCount());
-		System.out.println("产小母老鼠数量：" + femaleSmallRat.getCount());
+//		System.out.println("产小公老鼠数量：" + maleSmallRat.getCount());
+//		System.out.println("产小母老鼠数量：" + femaleSmallRat.getCount());
 		//afterThreeMonth(maleSmallRat);
 	}
 	
@@ -140,14 +140,14 @@ public class Rat implements RatCommonFeature {
 		for (Rat maleRat : maleRatList) {
 			if (maleRat.getAge() >= 30) {
 				maleRatList.remove(maleRat);
-				System.out.println("移除的公老鼠数量：" + maleRat.getCount());
+//				System.out.println("移除的公老鼠数量：" + maleRat.getCount());
 				maleRat = null;
 			}
 		}
 		for (Rat femaleRat : femaleRatList) {
 			if (femaleRat.getAge() >= 30) {
 				femaleRatList.remove(femaleRat);
-				System.out.println("移除的母老鼠数量：" + femaleRat.getCount());
+//				System.out.println("移除的母老鼠数量：" + femaleRat.getCount());
 				femaleRat = null;
 			}
 		}

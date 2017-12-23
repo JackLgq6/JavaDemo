@@ -3,8 +3,11 @@ package com.eg.ccm.timer;
 import java.util.Calendar;
 import java.util.List;
 
+import com.eg.ccm.entity.Cat;
+import com.eg.ccm.entity.CatNest;
 import com.eg.ccm.entity.Rat;
 import com.eg.ccm.entity.RatNest;
+import com.eg.ccm.entity.SmallCat;
 import com.eg.ccm.entity.SmallRat;
 
 public class TimeUtil {
@@ -41,7 +44,7 @@ public class TimeUtil {
 	2.老鼠的最大寿命2年6个月，然后自然死亡。
 	 * @param ratNest
 	 */
-	public static void startTime(RatNest ratNest) {
+	public static void startTime(RatNest ratNest, CatNest catNest) {
 		/*int year = mCalendar.get(Calendar.YEAR);
 		int month = mCalendar.get(Calendar.MONTH) + 1;
 		int day = mCalendar.get(Calendar.DAY_OF_MONTH);
@@ -55,30 +58,39 @@ public class TimeUtil {
 		List<Rat> maleRatList = ratNest.getMaleRatList();
 		List<SmallRat> smallMaleRatList = ratNest.getSmallMaleRatList();
 		List<SmallRat> smallFemaleRatList = ratNest.getSmallFemaleRatList();
+		List<Cat> femaleCatList = catNest.getFemaleCatList();
+		List<Cat> maleCatList = catNest.getMaleCatList();
+		List<SmallCat> smallFemaleCatList = catNest.getSmallFemaleCatList();
+		List<SmallCat> smallMaleCatList = catNest.getSmallMaleCatList();
+		Cat cat = new Cat();
 		//tu.setDate(2017, 11, 11);
-		for (int i = 0; i < 500; i++) {
+		for (;;) {
 			//日期加1天
 			mCalendar.add(Calendar.DATE, 1);
 			days++;
 			//每隔21天成熟母老鼠生小老鼠
-			if (days >= 21 && days % flag == 0) {
-				/*int year = mCalendar.get(Calendar.YEAR);
+			/*if (days >= 21 && days % flag == 0) {
+				int year = mCalendar.get(Calendar.YEAR);
 				int month = mCalendar.get(Calendar.MONTH) + 1;
 				int date = mCalendar.get(Calendar.DAY_OF_MONTH);
-				System.out.println(year + "-" + month + "-" + date);*/
+				System.out.println(year + "-" + month + "-" + date);
 				for (Rat femaleRat : femaleRatList) {
 					int fetus = femaleRat.getFetus(femaleRat);
-					System.out.println("生育次数：" + femaleRatList.size());
+					//System.out.println("生育次数：" + femaleRatList.size());
 					femaleRat.bear(ratNest, femaleRat, fetus);
 					femaleRat.setFetus(femaleRat, ++fetus);
 				}
-				/*for (SmallRat smallFemaleRat : smallFemaleRatList) {
+				for (SmallRat smallFemaleRat : smallFemaleRatList) {
 					if (smallFemaleRat.getSex().equals("female") && smallFemaleRat.getAge() >= 3) {
 						smallFemaleRat.bear(ratNest, smallFemaleRat, smallFemaleRat.getFetus(smallFemaleRat));
 						int fetus = smallFemaleRat.getFetus(smallFemaleRat);
 						smallFemaleRat.setFetus(smallFemaleRat, ++fetus);
 					}
-				}*/
+				}
+			}*/
+			//猫每5天可以抓到1只老鼠。小猫10个月就可以抓老鼠了。10岁之后不再有抓老鼠的能力。
+			if (days >= 5 && days % 5 == 0) {
+				cat.catchMounse(ratNest);
 			}
 			if (days >= 30 && days % 30 == 0) {
 				months++;
@@ -86,6 +98,11 @@ public class TimeUtil {
 				int smallMaleRatCount = 0;
 				int maleRatCount = 0;
 				int femaleRatCount = 0;
+				int smallFemaleCatCount = 0;
+				int smallMaleCatCount = 0;
+				int maleCatCount = 0;
+				int femaleCatCount = 0;
+				SmallCat smallCat = new SmallCat();
 				if (months >= 2) {
 					for (SmallRat smallFeSmallRat: smallFemaleRatList) {
 						if (smallFeSmallRat.getAge() >= 3 && smallFeSmallRat.getSex().equals("female")) {
@@ -101,6 +118,17 @@ public class TimeUtil {
 						//maleRatList.add(smallMaleRat);
 					}
 					//System.out.println("小老鼠成熟");
+				}
+				if (months >= 5) {
+					smallCat.growUp(catNest);
+				}
+				if (months >= 10) {
+					cat.giveToOthers(catNest);
+				}
+				if (months >= 10 && months % 10 == 0) {
+					for (Cat femaleCat : femaleCatList) {
+						cat.bear(catNest, femaleCat);
+					}
 				}
 				if (months >= 30) {
 					Rat rat = new Rat();
@@ -129,8 +157,30 @@ public class TimeUtil {
 					femaleRatCount += femaleRat.getCount();
 					femaleRat.setAge(++age);
 				}
-				System.out.println("每个月成年母老鼠数量：" + femaleRatCount + ", " + "每个月成年公老鼠数量：" + maleRatCount + ", "
-						+ "每个月小母老鼠数量：" + smallFemaleRatCount + ", " + "每个月小公老鼠数量" + smallMaleRatCount);
+//				System.out.println("每个月成年母老鼠数量：" + femaleRatCount + ", " + "每个月成年公老鼠数量：" + maleRatCount + ", "
+//						+ "每个月小母老鼠数量：" + smallFemaleRatCount + ", " + "每个月小公老鼠数量" + smallMaleRatCount);
+				for (Cat maleCat : maleCatList) {
+					int age = maleCat.getAge();
+					maleCat.setAge(++age);
+					maleCatCount += maleCat.getCount();
+				}
+				for (Cat femaleCat : femaleCatList) {
+					int age = femaleCat.getAge();
+					femaleCat.setAge(++age);
+					femaleCatCount += femaleCat.getCount();
+				}
+				for (SmallCat smallMaleCat : smallMaleCatList) {
+					int age = smallMaleCat.getAge();
+					smallMaleCat.setAge(++age);
+					smallMaleCatCount += smallMaleCat.getCount();
+				}
+				for (SmallCat smallFemaleCat : smallFemaleCatList) {
+					int age = smallFemaleCat.getAge();
+					smallFemaleCat.setAge(++age);
+					smallFemaleCatCount += smallFemaleCat.getCount();
+				}
+				System.out.println("每个月成年公猫数量：" + maleCatCount + ", 每个月成年母猫数量：" + femaleCatCount + 
+						"， 每个月小公猫数量：" + smallMaleCatCount + "， 每个月小母猫数量：" + smallFemaleCatCount);
 			}
 			
 			if (isEnd()) {

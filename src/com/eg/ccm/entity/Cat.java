@@ -33,8 +33,10 @@ public class Cat {
 	public void bear(CatNest catNest, Cat femaleCat) {
 		SmallCat smallMaleCat = new SmallCat();
 		smallMaleCat.setAge(0);
+		smallMaleCat.setSex("male");
 		SmallCat smallFemaleCat = new SmallCat();
 		smallFemaleCat.setAge(0);
+		smallFemaleCat.setSex("female");
 		Random r = new Random();
 		int smallMaleCatCount = 0;
 		int smallFemaleCatCount = 0;
@@ -50,6 +52,8 @@ public class Cat {
 		List<SmallCat> smallFemaleCatList = catNest.getSmallFemaleCatList();
 		smallMaleCatList.add(smallMaleCat);
 		smallFemaleCatList.add(smallFemaleCat);
+		System.out.println("产小公猫数量：" + smallMaleCat.getCount());
+		System.out.println("产小母猫数量：" + smallFemaleCat.getCount());
 	}
 	
 	public void catchMounse(RatNest ratNest) {
@@ -59,28 +63,33 @@ public class Cat {
 		List<SmallRat> smallFemaleRatList = ratNest.getSmallFemaleRatList();
 		Random r = new Random();
 		int number = r.nextInt(100) + 1;
+		//System.out.println("随机数：" + number);
 		if (number % 3 == 0) {
 			for (SmallRat smallFemaleRat : smallFemaleRatList) {
 				int smallFemaleCount = smallFemaleRat.getCount();
 				smallFemaleRat.setCount(--smallFemaleCount);
+//				System.out.println("3的倍数，小母老鼠数量减1");
 				break;
 			}
 		} else if ( number % 4 == 0) {
 			for (Rat maleRat : maleRatList) {
 				int maleRatCount = maleRat.getCount();
 				maleRat.setCount(--maleRatCount);
+//				System.out.println("4的倍数，成年公老鼠数量减1");
 				break;
 			}
 		} else if (number % 5 == 0) {
 			for (SmallRat smallMaleRat : smallMaleRatList) {
 				int smallMaleRatCount = smallMaleRat.getCount();
 				smallMaleRat.setCount(--smallMaleRatCount);
+//				System.out.println("5的倍数，小公老鼠数量减1");
 				break;
 			}
 		} else {
 			for (Rat femaleRat : femaleRatList) {
 				int femaleCount = femaleRat.getCount();
 				femaleRat.setCount(--femaleCount);
+//				System.out.println("其他，成年母老鼠数量减1");
 				break;
 			}
 		}
@@ -89,13 +98,14 @@ public class Cat {
 	//农夫最多养15只猫。多余的将送人，其中留下小猫不超过20%，成年公猫不超过20%。
 	public void giveToOthers(CatNest catNest) {
 		List<Cat> maleCatList = catNest.getMaleCatList();
-		List<Cat> femaleCatList = catNest.getFemaleCatList();
 		List<SmallCat> smallMaleCatList = catNest.getSmallMaleCatList();
 		List<SmallCat> smallFemaleCatList = catNest.getSmallFemaleCatList();
-		int maleCatCount = maleCatList.size();
-		int femaleCatCount = femaleCatList.size();
-		int smallMaleCatCount = smallMaleCatList.size();
-		int smallFemaleCatCount = smallFemaleCatList.size();
+		//计算各类猫的总数量
+		int maleCatCount = Cat.totalMaleCatCount(catNest);
+		int femaleCatCount = Cat.totalFeMaleCatCount(catNest);
+		int smallMaleCatCount = Cat.totalSmallMaleCatCount(catNest);
+		int smallFemaleCatCount = Cat.totalSmallFeMaleCatCount(catNest);
+		
 		int totalCat = maleCatCount + femaleCatCount + smallMaleCatCount + smallFemaleCatCount;
 		int leaveCat = 15;
 		if (totalCat > leaveCat) {
@@ -104,6 +114,7 @@ public class Cat {
 				int toBeLeaveCount = 0;
 				while (true) {
 					int sfCount = 0;
+					int smCount = 0;
 					for (SmallCat smallFemaleCat : smallFemaleCatList) {
 						if (smallFemaleCatList.size() == 1) {
 							sfCount = smallFemaleCat.getCount();
@@ -120,7 +131,7 @@ public class Cat {
 					}
 					for (SmallCat smallMaleCat : smallMaleCatList) {
 						if (smallMaleCatList.size() == 1) {
-							int smCount = smallMaleCat.getCount();
+							smCount = smallMaleCat.getCount();
 							if (smCount < 3) {
 								if (smCount == 1 && sfCount == 1) {
 									break;
@@ -128,8 +139,7 @@ public class Cat {
 									break;
 								} else if (smCount == 2 && sfCount == 1) {
 									break;
-								}
-								else {
+								}	else {
 									smallMaleCat.setCount(1);
 									smCount = 1;
 									break;
@@ -138,15 +148,19 @@ public class Cat {
 								switch (sfCount) {
 								case 1:
 									smallMaleCat.setCount(2);
+									smCount = 2;
 									break;
 								case 2:
 									smallMaleCat.setCount(1);
+									smCount = 1;
 									break;
 								default:
 									break;
 								}
 							}
 							toBeLeaveCount = smCount + sfCount;
+							System.out.println("留下来的小公猫数量：" + smCount + ", 留下来的小母猫的数量：" + sfCount);
+							System.out.println("将留下来的小猫的数量：" + toBeLeaveCount);
 						} else if (smallMaleCatList.size() > 1) {
 							smallMaleCatList.remove(smallMaleCat);
 						}
@@ -162,9 +176,11 @@ public class Cat {
 					if (maleCatList.size() == 1) {
 						int mcCount = maleCat.getCount();
 						if (mcCount <= toBeLeaveMaleCat) {
+							System.out.println("留下公猫的数量：" + mcCount);
 							break;
 						} else {
 							maleCat.setCount(toBeLeaveMaleCat);
+							System.out.println("留下公猫的数量：" + toBeLeaveMaleCat);
 							break;
 						}
 					} else if (maleCatList.size() > 1) {
@@ -173,6 +189,42 @@ public class Cat {
 				}
 			}
 		}
+	}
+	
+	public static int totalMaleCatCount(CatNest catNest) {
+		List<Cat> maleCatList = catNest.getMaleCatList();
+		int totalCount = 0;
+		for (Cat maleCat : maleCatList) {
+			totalCount += maleCat.getCount();
+		}
+		return totalCount;
+	}
+	
+	public static int totalFeMaleCatCount(CatNest catNest) {
+		List<Cat> femaleCatList = catNest.getFemaleCatList();
+		int totalCount = 0;
+		for (Cat femaleCat : femaleCatList) {
+			totalCount += femaleCat.getCount();
+		}
+		return totalCount;
+	}
+	
+	public static int totalSmallFeMaleCatCount(CatNest catNest) {
+		List<SmallCat> smallFemaleCatList = catNest.getSmallFemaleCatList();
+		int totalCount = 0;
+		for (Cat smallFemaleCat : smallFemaleCatList) {
+			totalCount += smallFemaleCat.getCount();
+		}
+		return totalCount;
+	}
+	
+	public static int totalSmallMaleCatCount(CatNest catNest) {
+		List<SmallCat> smallMaleCatList = catNest.getSmallMaleCatList();
+		int totalCount = 0;
+		for (Cat smallMaleCat : smallMaleCatList) {
+			totalCount += smallMaleCat.getCount();
+		}
+		return totalCount;
 	}
 	
 	//猫寿命为15年，然后自然死亡。

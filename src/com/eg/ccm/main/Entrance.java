@@ -9,8 +9,11 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.eg.ccm.entity.Cat;
+import com.eg.ccm.entity.CatNest;
 import com.eg.ccm.entity.Rat;
 import com.eg.ccm.entity.RatNest;
+import com.eg.ccm.entity.SmallCat;
 import com.eg.ccm.entity.SmallRat;
 import com.eg.ccm.timer.TimeUtil;
 
@@ -78,14 +81,25 @@ public class Entrance {
 				femaleSmallRat.setCount(++femaleSmallCount);
 			}
 		}
-		System.out.println("初始成年母老鼠数量：" + femaleRat.getCount() + "," + "成年公老鼠数量：" + maleRat.getCount() + 
-				", 小母老鼠数量：" + femaleSmallRat.getCount() + "， 小公老鼠数量：" + maleSmallRat.getCount());
+//		System.out.println("初始成年母老鼠数量：" + femaleRat.getCount() + "," + "成年公老鼠数量：" + maleRat.getCount() + 
+//				", 小母老鼠数量：" + femaleSmallRat.getCount() + "， 小公老鼠数量：" + maleSmallRat.getCount());
 		maleRatList.add(maleRat);
 		femaleRatList.add(femaleRat);
 		smallMaleRatList.add(maleSmallRat);
 		smalllFemaleRatList.add(femaleSmallRat);
 		RatNest ratNest = new RatNest(10, maleRatList, femaleRatList, smallMaleRatList, smalllFemaleRatList);
+		//4只猫中2母2公，猫都1岁了
+		Cat maleCat = new Cat(1, 2, "male");
+		Cat femaleCat = new Cat(1, 2, "female");
+		System.out.println("初始成年公猫数量：" + maleCat.getCount() + ", " + "初始成年母猫的数量：" + femaleCat.getCount());
+		CopyOnWriteArrayList<Cat> maleCatList = new CopyOnWriteArrayList<>();
+		CopyOnWriteArrayList<Cat> femaleCatList = new CopyOnWriteArrayList<>();
+		CopyOnWriteArrayList<SmallCat> smallMaleCatList = new CopyOnWriteArrayList<>();
+		CopyOnWriteArrayList<SmallCat> smallFemaleCatList = new CopyOnWriteArrayList<>();
+		maleCatList.add(maleCat);
+		femaleCatList.add(femaleCat);
+		CatNest catNest = new CatNest(1, maleCatList, femaleCatList, smallMaleCatList, smallFemaleCatList);
 		TimeUtil.setDate(2017, 11, 11);
-		TimeUtil.startTime(ratNest);
+		TimeUtil.startTime(ratNest, catNest);
 	}
 }

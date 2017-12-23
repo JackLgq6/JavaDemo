@@ -26,15 +26,15 @@ public class SmallCat extends Cat {
 		List<SmallCat> smallMaleCatList = catNest.getSmallMaleCatList();
 		List<SmallCat> smallFemaleCatList = catNest.getSmallFemaleCatList();
 		for (SmallCat smallFemaleCat : smallFemaleCatList) {
-			if (smallFemaleCat.getAge() >= 15 && smallFemaleCat.getSex().equals("female")) {
+			if (smallFemaleCat.getAge() >= 5 && smallFemaleCat.getSex().equals("female")) {
 				femaleCatList.add(smallFemaleCat);
 				smallFemaleCatList.remove(smallFemaleCat);
 			}
 		}
 		for (SmallCat smallMaleCat : smallMaleCatList) {
-			if (smallMaleCat.getAge() >= 15 && smallMaleCat.getSex().equals("male")) {
+			if (smallMaleCat.getAge() >= 5 && smallMaleCat.getSex().equals("male")) {
 				maleCatList.add(smallMaleCat);
-				smallFemaleCatList.remove(smallMaleCat);
+				smallMaleCatList.remove(smallMaleCat);
 			}
 		}
 		
