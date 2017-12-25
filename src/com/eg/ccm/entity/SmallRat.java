@@ -1,5 +1,7 @@
 package com.eg.ccm.entity;
 
+import java.util.List;
+
 public class SmallRat extends Rat {
 	
 	private int age;
@@ -13,10 +15,22 @@ public class SmallRat extends Rat {
 		this.age = age;
 	}
 	
-	public void threeMonthLater(Rat rat, SmallRat smallMaleRat) {
-		//Rat.afterThreeMonth(smallMaleRat);
-		if (rat.getSex().equals("female") && smallMaleRat.getSex().equals("female")) {
-			rat.afterThreeMonth(rat, smallMaleRat);
+	public void growUp(RatNest ratNest) {
+		List<SmallRat> smallMaleRatList = ratNest.getSmallMaleRatList();
+		List<SmallRat> smallFemaleRatList = ratNest.getSmallFemaleRatList();
+		List<Rat> femaleRatList = ratNest.getFemaleRatList();
+		List<Rat> maleRatList = ratNest.getMaleRatList();
+		for (SmallRat smallFemaleRat: smallFemaleRatList) {
+			if (smallFemaleRat.getAge() >= 3 && smallFemaleRat.getSex().equals("female")) {
+				femaleRatList.add(smallFemaleRat);
+				smallFemaleRatList.remove(smallFemaleRat);
+			}
+		}
+		for (SmallRat smallMaleRat : smallMaleRatList) {
+			if (smallMaleRat.getAge() >= 3 && smallMaleRat.getSex().equals("male")) {
+				maleRatList.add(smallMaleRat);
+				smallMaleRatList.remove(smallMaleRat);
+			}
 		}
 	}
 

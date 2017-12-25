@@ -1,12 +1,6 @@
 package com.eg.ccm.main;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.Properties;
 import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.eg.ccm.entity.Cat;
@@ -55,42 +49,63 @@ public class Entrance {
 		rat.setSex("female");
 		rat.setCount(100);
 		rat.bear(rat, 0, 11);*/
+		RatNest ratNest = new RatNest();
+		ratNest.setCount(10);
 		CopyOnWriteArrayList<Rat> maleRatList = new CopyOnWriteArrayList<>();
 		CopyOnWriteArrayList<Rat> femaleRatList = new CopyOnWriteArrayList<>();
 		CopyOnWriteArrayList<SmallRat> smallMaleRatList = new CopyOnWriteArrayList<>();
-		CopyOnWriteArrayList<SmallRat> smalllFemaleRatList = new CopyOnWriteArrayList<>();
-		
-		Rat maleRat = new Rat(1, 3, "male");
-		Rat femaleRat = new Rat(1, 3, "female");
-		femaleRat.setFetus(femaleRat, 2);
-		SmallRat maleSmallRat = new SmallRat();
-		maleSmallRat.setAge(1);
-		maleSmallRat.setSex("male");
-		SmallRat femaleSmallRat = new SmallRat();
-		femaleSmallRat.setAge(1);
-		femaleSmallRat.setSex("female");
-		femaleSmallRat.setFetus(femaleSmallRat, 1);
-		Random r = new Random();
-		int maleSmallCount = 0;
-		int femaleSmallCount = 0;
-		for (int i = 0; i < 5; i++) {
-			int num = r.nextInt() + 1;
-			if (num % 2 == 0) {
-				maleSmallRat.setCount(++maleSmallCount);
-			} else {
-				femaleSmallRat.setCount(++femaleSmallCount);
+		CopyOnWriteArrayList<SmallRat> smallFemaleRatList = new CopyOnWriteArrayList<>();
+//		int smallMaleCount = 0;
+//		int smallFemaleCount = 0;
+		for (int i = 0; i < ratNest.getCount(); i++) {
+			Rat maleRat = new Rat(1, 3, "male");
+			Rat femaleRat = new Rat(1, 3, "female");
+			femaleRat.setFetus(femaleRat, 2);
+			SmallRat maleSmallRat = new SmallRat();
+			maleSmallRat.setAge(1);
+			maleSmallRat.setSex("male");
+			SmallRat femaleSmallRat = new SmallRat();
+			femaleSmallRat.setAge(1);
+			femaleSmallRat.setSex("female");
+			femaleSmallRat.setFetus(femaleSmallRat, 1);
+			Random r = new Random();
+			int smallMaleCount = 0;
+			int smallFemaleCount = 0;
+			for (int j = 0; j < 5; j++) {
+				int num = r.nextInt() + 1;
+				if (num % 2 == 0) {
+					maleSmallRat.setCount(++smallMaleCount);
+				} else {
+					femaleSmallRat.setCount(++smallFemaleCount);
+				}
 			}
+			maleRatList.add(maleRat);
+			femaleRatList.add(femaleRat);
+			smallMaleRatList.add(maleSmallRat);
+			smallFemaleRatList.add(femaleSmallRat);
 		}
-//		System.out.println("初始成年母老鼠数量：" + femaleRat.getCount() + "," + "成年公老鼠数量：" + maleRat.getCount() + 
-//				", 小母老鼠数量：" + femaleSmallRat.getCount() + "， 小公老鼠数量：" + maleSmallRat.getCount());
-		maleRatList.add(maleRat);
-		femaleRatList.add(femaleRat);
-		smallMaleRatList.add(maleSmallRat);
-		smalllFemaleRatList.add(femaleSmallRat);
-		RatNest ratNest = new RatNest(10, maleRatList, femaleRatList, smallMaleRatList, smalllFemaleRatList);
+		int totalSmallFemaleRat = 0;
+		int totalSmallMaleRat = 0;
+		for (SmallRat smallFemaleRat : smallFemaleRatList) {
+			int count = smallFemaleRat.getCount();
+			totalSmallFemaleRat += count;
+		}
+		for (SmallRat smallMaleRat : smallMaleRatList) {
+			int count = smallMaleRat.getCount();
+			totalSmallMaleRat += count;
+		}
+		System.out.println("初始成年母老鼠数量：10, 成年公老鼠数量：10" + 
+				", 小母老鼠数量：" + totalSmallFemaleRat + "， 小公老鼠数量：" + totalSmallMaleRat);
+		ratNest.setMaleRatList(maleRatList);
+		ratNest.setFemaleRatList(femaleRatList);
+		ratNest.setSmallMaleRatList(smallMaleRatList);
+		ratNest.setSmallFemaleRatList(smallFemaleRatList);
+		
+		
+		//RatNest ratNest = new RatNest(10, maleRatList, femaleRatList, smallMaleRatList, smalllFemaleRatList);
 		//4只猫中2母2公，猫都1岁了
-		Cat maleCat = new Cat(1, 2, "male");
-		Cat femaleCat = new Cat(1, 2, "female");
+		Cat maleCat = new Cat(12, 2, "male");
+		Cat femaleCat = new Cat(12, 2, "female");
 		System.out.println("初始成年公猫数量：" + maleCat.getCount() + ", " + "初始成年母猫的数量：" + femaleCat.getCount());
 		CopyOnWriteArrayList<Cat> maleCatList = new CopyOnWriteArrayList<>();
 		CopyOnWriteArrayList<Cat> femaleCatList = new CopyOnWriteArrayList<>();

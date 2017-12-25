@@ -68,30 +68,33 @@ public class TimeUtil {
 			//日期加1天
 			mCalendar.add(Calendar.DATE, 1);
 			days++;
+			//猫每5天可以抓到1只老鼠。小猫10个月就可以抓老鼠了。10岁之后不再有抓老鼠的能力。
+			if (days >= 5 && days % 5 == 0) {
+				int canCatchRatCount = Cat.canCatchRatCount(catNest);
+				cat.catchMounse(ratNest, canCatchRatCount);
+			}
 			//每隔21天成熟母老鼠生小老鼠
-			/*if (days >= 21 && days % flag == 0) {
-				int year = mCalendar.get(Calendar.YEAR);
-				int month = mCalendar.get(Calendar.MONTH) + 1;
-				int date = mCalendar.get(Calendar.DAY_OF_MONTH);
-				System.out.println(year + "-" + month + "-" + date);
+			if (days >= 21 && days % flag == 0) {
+				//System.out.println(year + "-" + month + "-" + date);
+				System.out.println("成年母老鼠数量:" + femaleCatList.size());
+				int i = 0;
 				for (Rat femaleRat : femaleRatList) {
 					int fetus = femaleRat.getFetus(femaleRat);
 					//System.out.println("生育次数：" + femaleRatList.size());
 					femaleRat.bear(ratNest, femaleRat, fetus);
 					femaleRat.setFetus(femaleRat, ++fetus);
+					i++;
 				}
-				for (SmallRat smallFemaleRat : smallFemaleRatList) {
+				System.out.println("循环次数" + i);
+				/*for (SmallRat smallFemaleRat : smallFemaleRatList) {
 					if (smallFemaleRat.getSex().equals("female") && smallFemaleRat.getAge() >= 3) {
 						smallFemaleRat.bear(ratNest, smallFemaleRat, smallFemaleRat.getFetus(smallFemaleRat));
 						int fetus = smallFemaleRat.getFetus(smallFemaleRat);
 						smallFemaleRat.setFetus(smallFemaleRat, ++fetus);
 					}
-				}
-			}*/
-			//猫每5天可以抓到1只老鼠。小猫10个月就可以抓老鼠了。10岁之后不再有抓老鼠的能力。
-			if (days >= 5 && days % 5 == 0) {
-				cat.catchMounse(ratNest);
+				}*/
 			}
+			
 			if (days >= 30 && days % 30 == 0) {
 				months++;
 				int smallFemaleRatCount = 0;
@@ -103,23 +106,12 @@ public class TimeUtil {
 				int maleCatCount = 0;
 				int femaleCatCount = 0;
 				SmallCat smallCat = new SmallCat();
+				SmallRat smallRat = new SmallRat();
+				//两个月以后每个月检查是否有长大的老鼠
 				if (months >= 2) {
-					for (SmallRat smallFeSmallRat: smallFemaleRatList) {
-						if (smallFeSmallRat.getAge() >= 3 && smallFeSmallRat.getSex().equals("female")) {
-							femaleRatList.add(smallFeSmallRat);
-							smallFemaleRatList.remove(smallFeSmallRat);
-						}
-					}
-					for (SmallRat smallMaleRat : smallMaleRatList) {
-						if (smallMaleRat.getAge() >= 3 && smallMaleRat.getSex().equals("male")) {
-							maleRatList.add(smallMaleRat);
-							smallMaleRatList.remove(smallMaleRat);
-						}
-						//maleRatList.add(smallMaleRat);
-					}
-					//System.out.println("小老鼠成熟");
+					smallRat.growUp(ratNest);
 				}
-				if (months >= 5) {
+				if (months >= 15) {
 					smallCat.growUp(catNest);
 				}
 				if (months >= 10) {
@@ -134,8 +126,10 @@ public class TimeUtil {
 					Rat rat = new Rat();
 					rat.dead(ratNest);
 				}
+				
 				for (SmallRat smallFemaleRat : smallFemaleRatList) {
 					int age = smallFemaleRat.getAge();
+					System.out.println("小母老鼠数量:" + smallFemaleRat.getCount());
 					smallFemaleRatCount += smallFemaleRat.getCount();
 					smallFemaleRat.setAge(++age);
 				}
@@ -157,8 +151,9 @@ public class TimeUtil {
 					femaleRatCount += femaleRat.getCount();
 					femaleRat.setAge(++age);
 				}
-//				System.out.println("每个月成年母老鼠数量：" + femaleRatCount + ", " + "每个月成年公老鼠数量：" + maleRatCount + ", "
-//						+ "每个月小母老鼠数量：" + smallFemaleRatCount + ", " + "每个月小公老鼠数量" + smallMaleRatCount);
+				
+				System.out.println("第" + months + "月成年母老鼠数量：" + femaleRatCount + ", " + "成年公老鼠数量：" + maleRatCount + ", "
+						+ "每个月小母老鼠数量：" + smallFemaleRatCount + ", " + "每个月小公老鼠数量" + smallMaleRatCount);
 				for (Cat maleCat : maleCatList) {
 					int age = maleCat.getAge();
 					maleCat.setAge(++age);
@@ -179,7 +174,7 @@ public class TimeUtil {
 					smallFemaleCat.setAge(++age);
 					smallFemaleCatCount += smallFemaleCat.getCount();
 				}
-				System.out.println("每个月成年公猫数量：" + maleCatCount + ", 每个月成年母猫数量：" + femaleCatCount + 
+				System.out.println("第" + months + "月成年公猫数量：" + maleCatCount + ", 每个月成年母猫数量：" + femaleCatCount + 
 						"， 每个月小公猫数量：" + smallMaleCatCount + "， 每个月小母猫数量：" + smallFemaleCatCount);
 			}
 			
@@ -218,7 +213,7 @@ public class TimeUtil {
 		int year = mCalendar.get(Calendar.YEAR);
 		int month = mCalendar.get(Calendar.MONTH) + 1;
 		int date = mCalendar.get(Calendar.DAY_OF_MONTH);
-		if (year == 2020 && month == 12 && date == 31) {
+		if (year == 2023 && month == 12 && date == 31) {
 			return true;
 		}
 		return false;

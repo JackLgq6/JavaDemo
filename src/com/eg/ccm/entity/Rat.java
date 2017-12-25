@@ -90,8 +90,8 @@ public class Rat implements RatCommonFeature {
 			smallMaleRatList.add(maleSmallRat);
 			smallFemaleRatList.add(femaleSmallRat);
 		}
-//		System.out.println("产小公老鼠数量：" + maleSmallRat.getCount());
-//		System.out.println("产小母老鼠数量：" + femaleSmallRat.getCount());
+		System.out.println("产小公老鼠数量：" + maleSmallRat.getCount());
+		System.out.println("产小母老鼠数量：" + femaleSmallRat.getCount());
 		//afterThreeMonth(maleSmallRat);
 	}
 	
