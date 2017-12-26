@@ -76,7 +76,7 @@ public class TimeUtil {
 			//每隔21天成熟母老鼠生小老鼠
 			if (days >= 21 && days % flag == 0) {
 				//System.out.println(year + "-" + month + "-" + date);
-				System.out.println("成年母老鼠数量:" + femaleCatList.size());
+				System.out.println("成年母老鼠数量:" + femaleRatList.size());
 				int i = 0;
 				for (Rat femaleRat : femaleRatList) {
 					int fetus = femaleRat.getFetus(femaleRat);
@@ -153,7 +153,7 @@ public class TimeUtil {
 				}
 				
 				System.out.println("第" + months + "月成年母老鼠数量：" + femaleRatCount + ", " + "成年公老鼠数量：" + maleRatCount + ", "
-						+ "每个月小母老鼠数量：" + smallFemaleRatCount + ", " + "每个月小公老鼠数量" + smallMaleRatCount);
+						+ "每个月小母老鼠数量：" + smallFemaleRatCount + ", " + "每个月小公老鼠数量: " + smallMaleRatCount);
 				for (Cat maleCat : maleCatList) {
 					int age = maleCat.getAge();
 					maleCat.setAge(++age);

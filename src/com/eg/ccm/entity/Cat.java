@@ -62,6 +62,7 @@ public class Cat {
 		List<SmallRat> smallMaleRatList = ratNest.getSmallMaleRatList();
 		List<SmallRat> smallFemaleRatList = ratNest.getSmallFemaleRatList();
 		Random r = new Random();
+		int performCount = 0;
 		for (int i = 0; i < catCount; i++) {
 			int number = r.nextInt(100) + 1;
 			//System.out.println("随机数：" + number);
@@ -73,6 +74,8 @@ public class Cat {
 						continue;
 					}
 					smallFemaleRat.setCount(--smallFemaleCount);
+					performCount++;
+					break;
 //					System.out.println("3的倍数，小母老鼠数量减1");
 				}
 			} else if ( number % 4 == 0) {
@@ -83,6 +86,8 @@ public class Cat {
 						continue;
 					}
 					maleRat.setCount(--maleRatCount);
+					performCount++;
+					break;
 //					System.out.println("4的倍数，成年公老鼠数量减1");
 				}
 			} else if (number % 5 == 0) {
@@ -93,6 +98,8 @@ public class Cat {
 						continue;
 					}
 					smallMaleRat.setCount(--smallMaleRatCount);
+					performCount++;
+					break;
 //					System.out.println("5的倍数，小公老鼠数量减1");
 				}
 			} else {
@@ -103,10 +110,13 @@ public class Cat {
 						continue;
 					}
 					femaleRat.setCount(--femaleCount);
+					performCount++;
+					break;
 //					System.out.println("其他，成年母老鼠数量减1");
 				}
 			}
 		}
+		System.out.println("被捕捉的老鼠数量: " + performCount);
 	}
 	
 	//农夫最多养15只猫。多余的将送人，其中留下小猫不超过20%，成年公猫不超过20%。
