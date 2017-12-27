@@ -4,6 +4,6 @@ public interface RatCommonFeature {
 	
 	public void dead(RatNest ratNest);
 	
-	public void afterThreeMonth(Rat rad, SmallRat smallRat);
+	public void afterThreeMonth(RatNest ratNest);
 }
 	

@@ -1,10 +1,6 @@
 package com.eg.ccm.entity;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -20,7 +16,6 @@ public class Rat implements RatCommonFeature {
 	private String sex;
 	// 多少胎数
 	private int fetus;
-	private static Map<Rat, Integer> map = new HashMap<Rat, Integer>();
 	
 	public Rat() {
 	}
@@ -31,24 +26,12 @@ public class Rat implements RatCommonFeature {
 		this.sex = sex;
 	}
 
-	/*// 2年3个月后死亡
-	public static void dead(SmallRat smallMaleRat) {
-		// map.get(key)
-		if (smallMaleRat != null) {
-			Integer smallMaleCount = map.get(smallMaleRat);
-			smallMaleCount = 0;
-			smallMaleRat = null;
-		}
-	}
-
-	// 每次产的一窝老鼠，new 一个对象，然后以HashMap（老鼠对象, 数量); 2年三个月后，从HashMap中将这个对象移除。
-	public static void afterThreeMonth(SmallRat smallMaleRat) {
-		if (smallMaleRat != null) {
-			map.put(smallMaleRat, smallMaleRat.getCount());
-		}
-		// 开始计算时间，2年3个月后老鼠死亡
-	}*/
-
+	/**
+	 * 成年母老鼠产小老鼠
+	 * @param ratNest 老鼠窝
+	 * @param femaleRat 生育母老鼠
+	 * @param fetus 胎数
+	 */
 	public void bear(RatNest ratNest, Rat femaleRat, int fetus) {
 		SmallRat maleSmallRat = new SmallRat();
 		maleSmallRat.setSex("male");
@@ -119,6 +102,9 @@ public class Rat implements RatCommonFeature {
 		this.sex = sex;
 	}
 
+	/**
+	 * 老鼠死亡
+	 */
 	@Override
 	public void dead(RatNest ratNest) {
 		List<Rat> femaleRatList = ratNest.getFemaleRatList();
@@ -154,13 +140,7 @@ public class Rat implements RatCommonFeature {
 	}
 
 	@Override
-	public void afterThreeMonth(Rat rat, SmallRat smallRat) {
-		if (smallRat != null && rat != null) {
-			rat.setCount(rat.getCount() + smallRat.getCount());
-			map.put(rat, rat.getCount());
-			System.out.println("----------------------");
-			System.out.println(smallRat.getCount());
-		}
+	public void afterThreeMonth(RatNest ratNest) {
 	}
 
 	public int getFetus(Rat femaleRat) {

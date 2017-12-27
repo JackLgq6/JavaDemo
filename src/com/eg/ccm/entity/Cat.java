@@ -28,6 +28,11 @@ public class Cat {
 		this.sex = sex;
 	}
 
+	/**
+	 * 成年母猫生小猫
+	 * @param catNest 猫窝
+	 * @param femaleCat 要生育的母猫
+	 */
 	public void bear(CatNest catNest, Cat femaleCat) {
 		SmallCat smallMaleCat = new SmallCat();
 		smallMaleCat.setAge(0);
@@ -55,6 +60,11 @@ public class Cat {
 	}
 	
 //	猫每5天可以抓到1只老鼠。小猫10个月就可以抓老鼠了。10岁之后不再有抓老鼠的能力
+	/**
+	 * 猫抓老鼠
+	 * @param ratNest 老鼠窝
+	 * @param catCount 能够抓老鼠的猫的数量
+	 */
 	public void catchMounse(RatNest ratNest, int catCount) {
 		System.out.println("可以抓老鼠的猫数量： " + catCount);
 		List<Rat> femaleRatList = ratNest.getFemaleRatList();
@@ -65,61 +75,209 @@ public class Cat {
 		int performCount = 0;
 		for (int i = 0; i < catCount; i++) {
 			int number = r.nextInt(100) + 1;
-			//System.out.println("随机数：" + number);
 			if (number % 3 == 0) {
-				for (SmallRat smallFemaleRat : smallFemaleRatList) {
-					int smallFemaleCount = smallFemaleRat.getCount();
-					if (smallFemaleCount == 0) {
-						smallFemaleRatList.remove(smallFemaleRat);
-						continue;
+				if (smallFemaleRatList.size() == 0) {
+					if (maleRatList.size() != 0) {
+						for (Rat maleRat : maleRatList) {
+							int maleRatCount = maleRat.getCount();
+							if (maleRatCount == 0) {
+								maleRatList.remove(maleRat);
+								continue;
+							}
+							maleRat.setCount(--maleRatCount);
+							performCount++;
+							break;
+						}
+					} else if (smallMaleRatList.size() != 0) {
+						for (SmallRat smallMaleRat : smallMaleRatList) {
+							int smallMaleRatCount = smallMaleRat.getCount();
+							if (smallMaleRatCount == 0) {
+								smallMaleRatList.remove(smallMaleRat);
+								continue;
+							}
+							smallMaleRat.setCount(--smallMaleRatCount);
+							performCount++;
+							break;
+						}
+					} else if (femaleRatList.size() != 0) {
+						for (Rat femaleRat : femaleRatList) {
+							int femaleCount = femaleRat.getCount();
+							if (femaleCount == 0) {
+								femaleRatList.remove(femaleRat);
+								continue;
+							}
+							femaleRat.setCount(--femaleCount);
+							performCount++;
+							break;
+						}
 					}
-					smallFemaleRat.setCount(--smallFemaleCount);
-					performCount++;
-					break;
-//					System.out.println("3的倍数，小母老鼠数量减1");
+				} else {
+					for (SmallRat smallFemaleRat : smallFemaleRatList) {
+						int smallFemaleCount = smallFemaleRat.getCount();
+						if (smallFemaleCount == 0) {
+							smallFemaleRatList.remove(smallFemaleRat);
+							continue;
+						}
+						smallFemaleRat.setCount(--smallFemaleCount);
+						performCount++;
+						break;
+					}
 				}
 			} else if ( number % 4 == 0) {
-				for (Rat maleRat : maleRatList) {
-					int maleRatCount = maleRat.getCount();
-					if (maleRatCount == 0) {
-						maleRatList.remove(maleRat);
-						continue;
+				if (maleRatList.size() == 0) {
+					if (smallFemaleRatList.size() != 0) {
+						for (SmallRat smallFemaleRat : smallFemaleRatList) {
+							int smallFemaleCount = smallFemaleRat.getCount();
+							if (smallFemaleCount == 0) {
+								smallFemaleRatList.remove(smallFemaleRat);
+								continue;
+							}
+							smallFemaleRat.setCount(--smallFemaleCount);
+							performCount++;
+							break;
+						}
+					} else if (smallMaleRatList.size() != 0) {
+						for (SmallRat smallMaleRat : smallMaleRatList) {
+							int smallMaleRatCount = smallMaleRat.getCount();
+							if (smallMaleRatCount == 0) {
+								smallMaleRatList.remove(smallMaleRat);
+								continue;
+							}
+							smallMaleRat.setCount(--smallMaleRatCount);
+							performCount++;
+							break;
+						}
+					} else if (femaleRatList.size() != 0) {
+						for (Rat femaleRat : femaleRatList) {
+							int femaleCount = femaleRat.getCount();
+							if (femaleCount == 0) {
+								femaleRatList.remove(femaleRat);
+								continue;
+							}
+							femaleRat.setCount(--femaleCount);
+							performCount++;
+							break;
+						}
 					}
-					maleRat.setCount(--maleRatCount);
-					performCount++;
-					break;
-//					System.out.println("4的倍数，成年公老鼠数量减1");
+				} else {
+					for (Rat maleRat : maleRatList) {
+						int maleRatCount = maleRat.getCount();
+						if (maleRatCount == 0) {
+							maleRatList.remove(maleRat);
+							continue;
+						}
+						maleRat.setCount(--maleRatCount);
+						performCount++;
+						break;
+					}
 				}
 			} else if (number % 5 == 0) {
-				for (SmallRat smallMaleRat : smallMaleRatList) {
-					int smallMaleRatCount = smallMaleRat.getCount();
-					if (smallMaleRatCount == 0) {
-						smallMaleRatList.remove(smallMaleRat);
-						continue;
+				if (smallMaleRatList.size() == 0) {
+					if (smallFemaleRatList.size() != 0) {
+						for (SmallRat smallFemaleRat : smallFemaleRatList) {
+							int smallFemaleCount = smallFemaleRat.getCount();
+							if (smallFemaleCount == 0) {
+								smallFemaleRatList.remove(smallFemaleRat);
+								continue;
+							}
+							smallFemaleRat.setCount(--smallFemaleCount);
+							performCount++;
+							break;
+						}
+					} else if (maleRatList.size() != 0) {
+						for (Rat maleRat : maleRatList) {
+							int maleRatCount = maleRat.getCount();
+							if (maleRatCount == 0) {
+								maleRatList.remove(maleRat);
+								continue;
+							}
+							maleRat.setCount(--maleRatCount);
+							performCount++;
+							break;
+						}
+					} else if (femaleRatList.size() != 0) {
+						for (Rat femaleRat : femaleRatList) {
+							int femaleCount = femaleRat.getCount();
+							if (femaleCount == 0) {
+								femaleRatList.remove(femaleRat);
+								continue;
+							}
+							femaleRat.setCount(--femaleCount);
+							performCount++;
+							break;
+						}
 					}
-					smallMaleRat.setCount(--smallMaleRatCount);
-					performCount++;
-					break;
-//					System.out.println("5的倍数，小公老鼠数量减1");
+				} else {
+						for (SmallRat smallMaleRat : smallMaleRatList) {
+							int smallMaleRatCount = smallMaleRat.getCount();
+							if (smallMaleRatCount == 0) {
+								smallMaleRatList.remove(smallMaleRat);
+								continue;
+							}
+							smallMaleRat.setCount(--smallMaleRatCount);
+							performCount++;
+							break;
+					}
 				}
 			} else {
-				for (Rat femaleRat : femaleRatList) {
-					int femaleCount = femaleRat.getCount();
-					if (femaleCount == 0) {
-						femaleRatList.remove(femaleRat);
-						continue;
+				if (femaleRatList.size() == 0) {
+					if (smallFemaleRatList.size() != 0) {
+						for (SmallRat smallFemaleRat : smallFemaleRatList) {
+							int smallFemaleCount = smallFemaleRat.getCount();
+							if (smallFemaleCount == 0) {
+								smallFemaleRatList.remove(smallFemaleRat);
+								continue;
+							}
+							smallFemaleRat.setCount(--smallFemaleCount);
+							performCount++;
+							break;
+						}
+					} else if (maleRatList.size() != 0) {
+						for (Rat maleRat : maleRatList) {
+							int maleRatCount = maleRat.getCount();
+							if (maleRatCount == 0) {
+								maleRatList.remove(maleRat);
+								continue;
+							}
+							maleRat.setCount(--maleRatCount);
+							performCount++;
+							break;
+						}
+					} else if (smallMaleRatList.size() != 0) {
+						for (SmallRat smallMaleRat : smallMaleRatList) {
+							int smallMaleRatCount = smallMaleRat.getCount();
+							if (smallMaleRatCount == 0) {
+								smallMaleRatList.remove(smallMaleRat);
+								continue;
+							}
+							smallMaleRat.setCount(--smallMaleRatCount);
+							performCount++;
+							break;
+						}
 					}
-					femaleRat.setCount(--femaleCount);
-					performCount++;
-					break;
-//					System.out.println("其他，成年母老鼠数量减1");
+				} else {
+					for (Rat femaleRat : femaleRatList) {
+						int femaleCount = femaleRat.getCount();
+						if (femaleCount == 0) {
+							femaleRatList.remove(femaleRat);
+							continue;
+						}
+						femaleRat.setCount(--femaleCount);
+						performCount++;
+						break;
+					}
 				}
 			}
+			
 		}
 		System.out.println("被捕捉的老鼠数量: " + performCount);
 	}
 	
 	//农夫最多养15只猫。多余的将送人，其中留下小猫不超过20%，成年公猫不超过20%。
+	/**
+	 * 将多余的猫送人
+	 * @param catNest 猫窝
+	 */
 	public void giveToOthers(CatNest catNest) {
 		List<Cat> maleCatList = catNest.getMaleCatList();
 		List<Cat> femaleCatList = catNest.getFemaleCatList();
@@ -240,6 +398,11 @@ public class Cat {
 		}
 	}
 	
+	/**
+	 * 得到集合中猫龄最小的猫的索引
+	 * @param catList 成年猫集合
+	 * @return 最新索引
+	 */
 	public int getMinCat(List<Cat> catList) {
 		Cat minCat = catList.get(0);
 		int min = 0;
@@ -293,6 +456,10 @@ public class Cat {
 	}
 	
 	//猫寿命为15年，然后自然死亡。
+	/**
+	 * 猫死亡
+	 * @param catNest
+	 */
 	public void dead(CatNest catNest) {
 		List<Cat> maleCatList = catNest.getMaleCatList();
 		List<Cat> femaleCatList = catNest.getFemaleCatList();
@@ -311,6 +478,11 @@ public class Cat {
 	}
 	
 //	猫每5天可以抓到1只老鼠。小猫10个月就可以抓老鼠了。10岁之后不再有抓老鼠的能力。
+	/**
+	 * 能够抓老鼠的猫的数量
+	 * @param catNest 猫窝
+	 * @return
+	 */
 	public static int canCatchRatCount(CatNest catNest) {
 		int totalCount = 0;
 		//成年公猫和成年母猫数量；

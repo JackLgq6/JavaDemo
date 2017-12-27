@@ -15,7 +15,8 @@ public class SmallRat extends Rat {
 		this.age = age;
 	}
 	
-	public void growUp(RatNest ratNest) {
+	@Override
+	public void afterThreeMonth(RatNest ratNest) {
 		List<SmallRat> smallMaleRatList = ratNest.getSmallMaleRatList();
 		List<SmallRat> smallFemaleRatList = ratNest.getSmallFemaleRatList();
 		List<Rat> femaleRatList = ratNest.getFemaleRatList();

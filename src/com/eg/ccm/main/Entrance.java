@@ -37,26 +37,13 @@ import com.eg.ccm.timer.TimeUtil;
 public class Entrance {
 	
 	public static void main(String[] args) throws Exception {
-		/*FileOutputStream fos = new FileOutputStream("src/SmallMaleRat.properties");
-		Properties prop = new Properties();
-		for (Integer i = 1, j = 5; i <= 11; i++, j++) {
-			//prop.setProperty(i.toString(), value)
-			for (int x = 0; j < j; x++) {
-				
-			}
-		}*/
-		/*Rat rat = new Rat();
-		rat.setSex("female");
-		rat.setCount(100);
-		rat.bear(rat, 0, 11);*/
+		//老鼠的初始化
 		RatNest ratNest = new RatNest();
 		ratNest.setCount(10);
 		CopyOnWriteArrayList<Rat> maleRatList = new CopyOnWriteArrayList<>();
 		CopyOnWriteArrayList<Rat> femaleRatList = new CopyOnWriteArrayList<>();
 		CopyOnWriteArrayList<SmallRat> smallMaleRatList = new CopyOnWriteArrayList<>();
 		CopyOnWriteArrayList<SmallRat> smallFemaleRatList = new CopyOnWriteArrayList<>();
-//		int smallMaleCount = 0;
-//		int smallFemaleCount = 0;
 		for (int i = 0; i < ratNest.getCount(); i++) {
 			Rat maleRat = new Rat(1, 3, "male");
 			Rat femaleRat = new Rat(1, 3, "female");
@@ -102,8 +89,8 @@ public class Entrance {
 		ratNest.setSmallFemaleRatList(smallFemaleRatList);
 		
 		
-		//RatNest ratNest = new RatNest(10, maleRatList, femaleRatList, smallMaleRatList, smalllFemaleRatList);
 		//4只猫中2母2公，猫都1岁了
+		//猫的初始化
 		Cat maleCat = new Cat(12, 2, "male");
 		Cat femaleCat = new Cat(12, 2, "female");
 		System.out.println("初始成年公猫数量：" + maleCat.getCount() + ", " + "初始成年母猫的数量：" + femaleCat.getCount());
